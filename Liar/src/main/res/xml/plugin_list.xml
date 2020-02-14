@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<plugins>
+    <plugin
+        key="TEST"
+        value="com.yam.liar.plugin.TestPlugin" />
+</plugins>
