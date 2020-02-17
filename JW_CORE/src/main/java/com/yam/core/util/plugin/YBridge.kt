@@ -4,6 +4,7 @@ import android.content.res.XmlResourceParser
 import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import org.json.JSONArray
 import org.json.JSONObject
@@ -16,6 +17,7 @@ import kotlin.collections.set
 
 class YBridge {
     private var activity: FragmentActivity? = null
+    private var fragment: Fragment? = null
     private var webView: WebView? = null
 
     private var pluginList: JSONArray? = null
@@ -26,8 +28,9 @@ class YBridge {
     internal val interfaceFileName = "plugin_list"
     internal val interfaceFileExt = "xml"
 
-    constructor(activity: FragmentActivity, webView: WebView){
-        this.activity = activity
+    constructor(fragment: Fragment, webView: WebView){
+        this.activity = fragment!!.activity
+        this.fragment = fragment
         this.webView = webView
         classes = HashMap<String, Class<*>>()
     }
@@ -62,7 +65,7 @@ class YBridge {
             if(checkInterface(id)){
                 registKeyAndBindingClass(id, interfaces!!.get(id)!!)
                 plugin = getModel(id)!!.newInstance() as YPlugin
-                plugin.setPlugin(activity!!, completeListener)
+                plugin.setPlugin(webView!!, fragment!!, completeListener)
                 plugin.execute(data)
             } else {
                 val error = JSONObject()

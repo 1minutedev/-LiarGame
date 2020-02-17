@@ -9,6 +9,6 @@ interface SplashContract {
     interface Presenter {
         fun setView(view: View)
         fun loadData()
-        fun moveToMain()
+        fun openWeb()
     }
 }

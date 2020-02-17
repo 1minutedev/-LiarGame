@@ -11,7 +11,9 @@ import android.widget.LinearLayout
 import com.yam.core.util.RUtil
 import com.yam.core.util.plugin.YBridge
 import com.yam.core.view.fragment.YWebFragment
+import com.yam.core.view.webview.YWebChromeClient
 import com.yam.core.view.webview.YWebView
+import com.yam.core.view.webview.YWebViewClient
 
 open class WebFragment : YWebFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -24,8 +26,8 @@ open class WebFragment : YWebFragment() {
         var params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
 
         yWebView = YWebView(activity!!.applicationContext)
-        yWebView.webViewClient = WebViewClient()
-        yWebView.webChromeClient = WebChromeClient()
+        yWebView.webViewClient = YWebViewClient()
+        yWebView.webChromeClient = YWebChromeClient(activity!!, yWebView)
 
         val settings = yWebView.getSettings()
         settings.setJavaScriptEnabled(true)
@@ -45,7 +47,7 @@ open class WebFragment : YWebFragment() {
         settings.setTextZoom(100)
         settings.setDisplayZoomControls(false)
 
-        yWebView.addJavascriptInterface(YBridge(activity!!, yWebView), "YBridge")
+        yWebView.addJavascriptInterface(YBridge(this, yWebView), "YBridge")
 
         mainView?.addView(yWebView, params)
 

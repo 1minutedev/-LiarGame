@@ -22,7 +22,7 @@ class SplashPresenter : SplashContract.Presenter {
      * 스플래시 화면에서의 작업이 모두 끝나고,
      * 메인 화면으로 진입하는 메서드
      */
-    override fun moveToMain() {
+    override fun openWeb() {
         var fragment = WebFragment()
 
         var arguments = Bundle()
