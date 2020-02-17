@@ -1,6 +1,7 @@
 package com.yam.core.util.plugin
 
 import android.content.res.XmlResourceParser
+import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import androidx.fragment.app.FragmentActivity
@@ -14,20 +15,21 @@ import kotlin.collections.indices
 import kotlin.collections.set
 
 class YBridge {
-    lateinit var activity: FragmentActivity
-    lateinit var  webView: WebView
+    private var activity: FragmentActivity? = null
+    private var webView: WebView? = null
 
     private var pluginList: JSONArray? = null
     private var interfaces: HashMap<String, String>? = null
     private var classes: HashMap<String, Class<*>>? = null
 
-
+    internal val TAG = YBridge::class.simpleName
     internal val interfaceFileName = "plugin_list"
     internal val interfaceFileExt = "xml"
 
     constructor(activity: FragmentActivity, webView: WebView){
         this.activity = activity
         this.webView = webView
+        classes = HashMap<String, Class<*>>()
     }
 
     @JavascriptInterface
@@ -53,14 +55,14 @@ class YBridge {
 
             var completeListener = object : CompleteListener {
                 override fun sendCallback(callback: String, resultData: JSONObject) {
-                    activity.runOnUiThread { webView.loadUrl("javascript:$callback($resultData)") }
+                    activity!!.runOnUiThread { webView!!.loadUrl("javascript:$callback($resultData)") }
                 }
             }
 
             if(checkInterface(id)){
                 registKeyAndBindingClass(id, interfaces!!.get(id)!!)
                 plugin = getModel(id)!!.newInstance() as YPlugin
-                plugin.setPlugin(activity, completeListener)
+                plugin.setPlugin(activity!!, completeListener)
                 plugin.execute(data)
             } else {
                 val error = JSONObject()
@@ -91,7 +93,7 @@ class YBridge {
 
     fun registKeyAndBindingClass(aKey: String, className: String) {
         if (isKeyAlreadyRegisted(aKey)) {
-            //			Logger.i("PluginManager", "key " + aKey + " is already exist, model doesn't insert.");
+            Log.e(TAG, "key $aKey is already exist, model doesn't insert.")
         } else {
             if (isValueAlreadyRegisted(className)) {
                 addKeyAlreadyBindingClass(aKey, className)   //이미 있는데 할 필요가 있나??
@@ -190,7 +192,7 @@ class YBridge {
 
         val interfaces = HashMap<String, String>()
 
-        var context = activity.applicationContext
+        var context = activity!!.applicationContext
 
         val id = context!!.resources.getIdentifier(fileName, ext, context.packageName)
         val xml = context.resources.getXml(id)
