@@ -2,6 +2,6 @@
 
 <plugins>
     <plugin
-        key="TEST"
-        value="com.yam.liar.plugin.TestPlugin" />
+        key="SHOW_SETTING_VIEW"
+        value="com.yam.liar.plugin.ShowSettingPlugin" />
 </plugins>

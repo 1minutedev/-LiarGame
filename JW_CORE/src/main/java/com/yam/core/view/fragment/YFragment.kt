@@ -1,14 +1,26 @@
 package com.yam.core.view.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.MotionEvent
 import android.view.View
+import android.view.Window
+import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import com.yam.core.application.YApplication
+import com.yam.core.util.ActivityRequestCode
 import com.yam.core.util.RUtil
+import com.yam.core.util.plugin.CompleteListener
+import com.yam.core.util.plugin.YBridge
+import com.yam.core.util.plugin.YPlugin
+import org.json.JSONObject
 
 abstract class YFragment : Fragment() {
     lateinit var wrapper: View
+    private var runningTask: YPlugin? = null
+
+    var touched = false
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -51,5 +63,40 @@ abstract class YFragment : Fragment() {
         fragmentTransaction.commitAllowingStateLoss()
 
         YApplication.addFragment(fragment)
+    }
+
+    open fun dispatchTouchEvent(cb: Window.Callback, event: MotionEvent) : Boolean {
+        if(event.pointerCount == 3 && touched == false){
+            touched = true
+            if(YApplication.isSettingMode){
+                var data = JSONObject()
+                data.put("id", "SHOW_SETTING_VIEW")
+                data.put("param", JSONObject())
+
+                YBridge.getInstance(this, WebView(activity)).callPluginFromApp("SHOW_SETTING_VIEW", data, object : CompleteListener {
+                    override fun sendCallback(callback: String, resultData: JSONObject) {
+                    }
+                })
+            }
+        }
+        return cb.dispatchTouchEvent(event)
+    }
+
+    fun startActivityForResult(task: YPlugin, intent: Intent, requestCode: Int) {
+        runningTask = task
+        super.startActivityForResult(intent, requestCode)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == ActivityRequestCode.REQUEST_CODE_NETWORK_SETTING){
+            touched = false
+        }
+
+        if(runningTask != null){
+            runningTask!!.onActivityResult(requestCode, resultCode, data)
+            runningTask = null
+        }
     }
 }

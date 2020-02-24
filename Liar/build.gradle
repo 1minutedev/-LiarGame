@@ -24,6 +24,8 @@ android {
             versionName "1.0.0"
             applicationId "com.yam.liar.dev"
             manifestPlaceholders = [applicationLabel: "@string/app_dev_name"]
+
+            resValue "string", "buildMode", "dev"
         }
 
         product {
@@ -31,6 +33,8 @@ android {
             versionName "1.0.0"
             applicationId "com.yam.liar"
             manifestPlaceholders = [applicationLabel: "@string/app_name"]
+
+            resValue "string", "buildMode", "release"
         }
     }
 

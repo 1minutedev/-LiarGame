@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebChromeClient
 import android.webkit.WebSettings
-import android.webkit.WebViewClient
 import android.widget.LinearLayout
 import com.yam.core.util.RUtil
 import com.yam.core.util.plugin.YBridge
@@ -51,6 +49,6 @@ open class WebFragment : YWebFragment() {
 
         mainView?.addView(yWebView, params)
 
-        yWebView.loadUrl("http://192.168.30.206:8080/biz3/contents/LGN/html/TST.html")
+        yWebView.loadUrl("http://192.168.30.46:8080/biz3/contents/LGN/html/TST.html")
     }
 }

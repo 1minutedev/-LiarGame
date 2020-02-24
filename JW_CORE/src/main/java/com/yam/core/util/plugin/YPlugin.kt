@@ -1,15 +1,14 @@
 package com.yam.core.util.plugin
 
+import android.content.Intent
 import android.os.AsyncTask
-import android.util.Log
 import android.webkit.WebView
 import androidx.fragment.app.Fragment
-
+import androidx.fragment.app.FragmentActivity
+import com.yam.core.view.fragment.YFragment
 import org.json.JSONObject
 
-import androidx.fragment.app.FragmentActivity
-
-abstract class YPlugin : AsyncTask<JSONObject, Void, Void>() {
+abstract class YPlugin : AsyncTask<JSONObject, Void, Void>(), YPluginInterface {
     lateinit var id: String
     lateinit var param: JSONObject
 
@@ -34,11 +33,14 @@ abstract class YPlugin : AsyncTask<JSONObject, Void, Void>() {
     }
 
     protected abstract fun executePlugin()
-
-    fun resultCallback(callback: String, data: JSONObject){
-        activity.runOnUiThread {
-            Log.e(id, "javascript:$callback($data)")
-            webView.evaluateJavascript("javascript:$callback($data)", null)
-        }
+    fun startActivityForResult(intent: Intent, requestCode: Int){
+        (fragment as YFragment).startActivityForResult(intent, requestCode)
     }
+
+    override fun onActivityResult(reqCode: Int, resCode: Int, intent: Intent?) {
+    }
+
+    override fun onRequestPermissionsResult(reqCode: Int, permissions: Array<String>, grantResults: Array<Int>) {
+    }
+
 }

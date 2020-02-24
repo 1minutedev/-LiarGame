@@ -28,33 +28,42 @@ class YBridge {
     internal val interfaceFileName = "plugin_list"
     internal val interfaceFileExt = "xml"
 
-    constructor(fragment: Fragment, webView: WebView){
+    companion object {
+        var yBridge : YBridge? = null
+
+        fun getInstance(fragment: Fragment, webView: WebView?) : YBridge {
+            if(yBridge == null){
+                yBridge = YBridge(fragment, webView)
+            }
+
+            return yBridge!!
+        }
+    }
+
+    constructor(fragment: Fragment, webView: WebView?){
         this.activity = fragment!!.activity
         this.fragment = fragment
         this.webView = webView
         classes = HashMap<String, Class<*>>()
     }
 
+    open fun callPluginFromApp(id: String, data: JSONObject, completeListener: CompleteListener){
+        executePlugin(id, data, completeListener)
+    }
+
     @JavascriptInterface
     fun callPlugin(paramString: String) {
         try {
             val data = JSONObject(paramString)
-
-            var param: JSONObject? = null
             var id = ""
 
             if (data.has("id")) {
                 id = data.getString("id")
             }
-            if (data.has("param")) {
-                param = data.getJSONObject("param")
-            }
 
             if (interfaces == null) {
                 interfaces = getInterfaces(interfaceFileName, interfaceFileExt)
             }
-
-            var plugin: YPlugin? = null
 
             var completeListener = object : CompleteListener {
                 override fun sendCallback(callback: String, resultData: JSONObject) {
@@ -62,27 +71,38 @@ class YBridge {
                 }
             }
 
-            if(checkInterface(id)){
-                registKeyAndBindingClass(id, interfaces!!.get(id)!!)
-                plugin = getModel(id)!!.newInstance() as YPlugin
-                plugin.setPlugin(webView!!, fragment!!, completeListener)
-                plugin.execute(data)
-            } else {
-                val error = JSONObject()
-                error.put("result", false)
-                error.put("errCode", 44444)
-                error.put("errMessage", "$id plugin not found")
-
-                var callback = ""
-
-                if (param!!.has("callback")) {
-                    callback = param.getString("callback")
-                }
-
-                completeListener.sendCallback(callback, error)
-            }
+            executePlugin(id, data, completeListener)
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    fun executePlugin(id: String, data: JSONObject, completeListener: CompleteListener){
+        var plugin: YPlugin? = null
+
+        if(checkInterface(id)){
+            registKeyAndBindingClass(id, interfaces!!.get(id)!!)
+            plugin = getModel(id)!!.newInstance() as YPlugin
+            plugin.setPlugin(webView!!, fragment!!, completeListener)
+            plugin.execute(data)
+        } else {
+            val error = JSONObject()
+            error.put("result", false)
+            error.put("errCode", 44444)
+            error.put("errMessage", "$id plugin not found")
+
+            var param: JSONObject? = null
+            var callback = ""
+
+            if (data.has("param")) {
+                param = data.getJSONObject("param")
+            }
+
+            if (param!!.has("callback")) {
+                callback = param.getString("callback")
+            }
+
+            completeListener.sendCallback(callback, error)
         }
     }
 

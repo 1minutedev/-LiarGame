@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 open class YApplication : Application() {
 
     companion object {
+        var buildMode = "release"
+        var isSettingMode = true
         var fragmentList: ArrayList<Fragment> = ArrayList()
 
         fun addFragment(fragment: Fragment){

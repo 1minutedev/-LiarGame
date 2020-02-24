@@ -1,6 +1,8 @@
 package com.yam.liar.view.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import com.yam.core.application.YApplication
 import com.yam.core.util.RUtil
 import com.yam.core.view.activity.YFragmentActivity
@@ -8,7 +10,6 @@ import com.yam.liar.R
 import com.yam.liar.view.fragment.splash.SplashFragment
 
 class MainFragmentActivity : YFragmentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -24,5 +25,9 @@ class MainFragmentActivity : YFragmentActivity() {
             .commitAllowingStateLoss()
 
         YApplication.addFragment(fragment)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

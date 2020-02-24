@@ -30,6 +30,6 @@ class SplashPresenter : SplashContract.Presenter {
 
         fragment.arguments = arguments
 
-        (view as YFragment).moveToFragment(fragment, "right")
+        (view as YFragment).moveToFragment(fragment, "top")
     }
 }
