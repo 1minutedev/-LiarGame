@@ -8,5 +8,10 @@ class LiarApplication : YApplication() {
         super.onCreate()
 
         buildMode = resources.getString(R.string.buildMode)
+
+        if(buildMode.equals("release")){
+            useSettingView = false
+        }
     }
+
 }
