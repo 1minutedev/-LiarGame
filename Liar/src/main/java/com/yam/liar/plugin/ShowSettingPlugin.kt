@@ -26,9 +26,15 @@ class ShowSettingPlugin : YPlugin() {
         super.onActivityResult(reqCode, resCode, data)
 
         if(reqCode == ActivityRequestCode.REQUEST_CODE_NETWORK_SETTING){
-            var isRefresh = data!!.getBooleanExtra("refresh", false)
+            var isRefresh = false
+
+            if(data != null) {
+                isRefresh = data!!.getBooleanExtra("refresh", false)
+            }
+
             result.put("result", true)
             result.put("refresh", isRefresh)
+
             listener.sendCallback(callback, result)
         }
     }
