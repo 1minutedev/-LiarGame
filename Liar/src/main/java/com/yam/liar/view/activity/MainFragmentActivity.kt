@@ -24,7 +24,7 @@ class MainFragmentActivity : YFragmentActivity() {
             .replace(RUtil.getIdR(applicationContext, "contents"), fragment, "center")
             .commitAllowingStateLoss()
 
-        YApplication.addFragment(fragment)
+//        YApplication.addFragment(fragment)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

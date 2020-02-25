@@ -1,6 +1,7 @@
 package com.yam.liar
 
 import com.yam.core.application.YApplication
+import com.yam.liar.view.fragment.splash.SplashFragment
 
 class LiarApplication : YApplication() {
 
@@ -12,6 +13,8 @@ class LiarApplication : YApplication() {
         if(buildMode.equals("release")){
             useSettingView = false
         }
+
+        LAUNCHER_FRAGMENT = SplashFragment::class.java
     }
 
 }

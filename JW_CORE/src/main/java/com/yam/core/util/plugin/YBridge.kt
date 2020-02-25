@@ -22,7 +22,6 @@ class YBridge {
 
     private var pluginList: JSONArray? = null
     private var interfaces: HashMap<String, String>? = null
-    private var classes: HashMap<String, Class<*>>? = null
 
     internal val TAG = YBridge::class.simpleName
     internal val interfaceFileName = "plugin_list"
@@ -30,22 +29,29 @@ class YBridge {
 
     companion object {
         var yBridge : YBridge? = null
+        var classes: HashMap<String, Class<*>>? = null
 
-        fun getInstance(fragment: Fragment, webView: WebView?) : YBridge {
+        fun getInstance() : YBridge {
             if(yBridge == null){
-                yBridge = YBridge(fragment, webView)
+                yBridge = YBridge()
+                classes = HashMap<String, Class<*>>()
             }
 
             return yBridge!!
         }
     }
 
-    constructor(fragment: Fragment, webView: WebView?){
-        this.activity = fragment!!.activity
+    open fun setFragment(fragment: Fragment){
         this.fragment = fragment
-        this.webView = webView
-        classes = HashMap<String, Class<*>>()
+        setActivity(fragment.activity!!)
     }
+    open fun setWebView(webView: WebView?){
+        this.webView = webView
+    }
+    open fun setActivity(activity: FragmentActivity){
+        this.activity = activity
+    }
+
 
     open fun callPluginFromApp(id: String, data: JSONObject, completeListener: CompleteListener){
         executePlugin(id, data, completeListener)
@@ -83,7 +89,7 @@ class YBridge {
         if(checkInterface(id)){
             registKeyAndBindingClass(id, interfaces!!.get(id)!!)
             plugin = getModel(id)!!.newInstance() as YPlugin
-            plugin.setPlugin(webView!!, fragment!!, completeListener)
+            plugin.setPlugin(fragment!!, completeListener)
             plugin.execute(data)
         } else {
             val error = JSONObject()

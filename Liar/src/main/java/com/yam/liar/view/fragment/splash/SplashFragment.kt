@@ -24,8 +24,8 @@ class SplashFragment : YFragment(), SplashContract.View {
     }
 
     override fun loadComplete() {
-        Handler().postDelayed(Runnable {
+//        Handler().postDelayed(Runnable {
             splashPresenter.openWeb()
-        }, 2000)
+//        }, 2000)
     }
 }

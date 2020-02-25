@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.widget.LinearLayout
+import com.yam.core.util.Config
 import com.yam.core.util.RUtil
 import com.yam.core.util.plugin.YBridge
 import com.yam.core.view.fragment.YWebFragment
@@ -24,10 +25,10 @@ open class WebFragment : YWebFragment() {
         var params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
 
         yWebView = YWebView(activity!!.applicationContext)
-        yWebView.webViewClient = YWebViewClient()
-        yWebView.webChromeClient = YWebChromeClient(activity!!, yWebView)
+        yWebView!!.webViewClient = YWebViewClient()
+        yWebView!!.webChromeClient = YWebChromeClient(activity!!, yWebView!!)
 
-        val settings = yWebView.getSettings()
+        val settings = yWebView!!.getSettings()
         settings.setJavaScriptEnabled(true)
         settings.setDomStorageEnabled(true)
         settings.setGeolocationEnabled(true)
@@ -45,10 +46,10 @@ open class WebFragment : YWebFragment() {
         settings.setTextZoom(100)
         settings.setDisplayZoomControls(false)
 
-        yWebView.addJavascriptInterface(YBridge(this, yWebView), "YBridge")
+        yWebView!!.addJavascriptInterface(YBridge(), "YBridge")
 
-        mainView?.addView(yWebView, params)
+        mainView?.addView(yWebView!!, params)
 
-        yWebView.loadUrl("http://192.168.30.46:8080/biz3/contents/LGN/html/TST.html")
+        yWebView!!.loadUrl(Config.getUrl())
     }
 }

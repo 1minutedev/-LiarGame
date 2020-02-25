@@ -21,14 +21,14 @@ class Config {
                     return YApplication.contentsUrl
                 }
                 MODE_EXTERNAL -> {
-                    var path : String
+                    var path = "file:///"
                     var externalPath = Environment.getExternalStorageDirectory().absolutePath;
 
                     if(!externalPath.endsWith("/")){
                         externalPath += "/"
                     }
 
-                    path = externalPath
+                    path += externalPath
 
                     if(!TextUtils.isEmpty(YApplication.contentsExternalDirectoryPath)){
                         if(YApplication.contentsExternalDirectoryPath.startsWith("/")){

@@ -10,6 +10,7 @@ import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import com.yam.core.application.YApplication
 import com.yam.core.util.ActivityRequestCode
+import com.yam.core.util.AppUtils
 import com.yam.core.util.RUtil
 import com.yam.core.util.plugin.CompleteListener
 import com.yam.core.util.plugin.YBridge
@@ -24,6 +25,8 @@ abstract class YFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        YApplication.addFragment(this)
+
         wrapper.isClickable = true
 
         onInit()
@@ -62,7 +65,7 @@ abstract class YFragment : Fragment() {
         )
         fragmentTransaction.commitAllowingStateLoss()
 
-        YApplication.addFragment(fragment)
+//        YApplication.addFragment(fragment)
     }
 
     open fun dispatchTouchEvent(cb: Window.Callback, event: MotionEvent) : Boolean {
@@ -73,26 +76,30 @@ abstract class YFragment : Fragment() {
                 data.put("id", "SHOW_SETTING_VIEW")
                 data.put("param", JSONObject())
 
-                YBridge.getInstance(this, WebView(activity)).callPluginFromApp("SHOW_SETTING_VIEW", data, object : CompleteListener {
+                YBridge.getInstance().callPluginFromApp("SHOW_SETTING_VIEW", data, object : CompleteListener {
                     override fun sendCallback(callback: String, resultData: JSONObject) {
+                        touched = false
+
+                        if(resultData.has("refresh")){
+                            if(resultData.getBoolean("refresh")){
+                                AppUtils.restartApp(activity!!)
+                            }
+                        }
                     }
                 })
             }
         }
+
         return cb.dispatchTouchEvent(event)
     }
 
-    fun startActivityForResult(task: YPlugin, intent: Intent, requestCode: Int) {
+    fun startActivityForResultFromPlugin(task: YPlugin, intent: Intent, requestCode: Int) {
         runningTask = task
         super.startActivityForResult(intent, requestCode)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if(requestCode == ActivityRequestCode.REQUEST_CODE_NETWORK_SETTING){
-            touched = false
-        }
 
         if(runningTask != null){
             runningTask!!.onActivityResult(requestCode, resultCode, data)

@@ -4,8 +4,12 @@ import android.app.Application
 import android.content.Context
 import android.os.Environment
 import android.util.Log
+import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import com.yam.core.util.Config
+import com.yam.core.util.plugin.YBridge
+import com.yam.core.view.fragment.YFragment
+import com.yam.core.view.fragment.YWebFragment
 
 open class YApplication : Application() {
 
@@ -45,7 +49,15 @@ open class YApplication : Application() {
          */
         fun addFragment(fragment: Fragment){
             fragmentList.add(fragment)
+            YBridge.getInstance().setFragment(fragment)
+            if(fragment is YWebFragment){
+                YBridge.getInstance().setWebView((fragment as YWebFragment).yWebView)
+            } else {
+                YBridge.getInstance().setWebView(null)
+            }
         }
+
+        lateinit var LAUNCHER_FRAGMENT: Class<*>
     }
 
     override fun onCreate() {

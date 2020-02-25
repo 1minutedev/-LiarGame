@@ -22,11 +22,13 @@ class ShowSettingPlugin : YPlugin() {
         startActivityForResult(intent, ActivityRequestCode.REQUEST_CODE_NETWORK_SETTING)
     }
 
-    override fun onActivityResult(reqCode: Int, resCode: Int, intent: Intent?) {
-        super.onActivityResult(reqCode, resCode, intent)
+    override fun onActivityResult(reqCode: Int, resCode: Int, data: Intent?) {
+        super.onActivityResult(reqCode, resCode, data)
 
         if(reqCode == ActivityRequestCode.REQUEST_CODE_NETWORK_SETTING){
+            var isRefresh = data!!.getBooleanExtra("refresh", false)
             result.put("result", true)
+            result.put("refresh", isRefresh)
             listener.sendCallback(callback, result)
         }
     }

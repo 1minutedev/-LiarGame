@@ -3,18 +3,18 @@ package com.yam.liar.view.activity
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
-import com.yam.core.util.Config
-import kotlinx.android.synthetic.main.activity_settings.*
-import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import com.yam.core.application.YApplication
+import com.yam.core.util.Config
 import com.yam.liar.R
+import kotlinx.android.synthetic.main.activity_settings.*
 
 
 class YNetworkActivity : Activity(), View.OnClickListener {
@@ -24,7 +24,7 @@ class YNetworkActivity : Activity(), View.OnClickListener {
     lateinit var editUrl: EditText
     lateinit var editDirectoryPath: EditText
 
-    lateinit var sharedPreferences : SharedPreferences
+    lateinit var sharedPreferences: SharedPreferences
 
     val permissionRequestCode = 10001
 
@@ -50,7 +50,8 @@ class YNetworkActivity : Activity(), View.OnClickListener {
 
         var contentsMode = sharedPreferences.getString("contents_mode", Config.MODE_ASSETS)!!
         var contentsUrl = sharedPreferences.getString("contents_url", "")!!
-        var contentsExternalDirectoryPath = sharedPreferences.getString("contents_external_directory_path", "")!!
+        var contentsExternalDirectoryPath =
+            sharedPreferences.getString("contents_external_directory_path", "")!!
 
         editUrl.setText(contentsUrl)
         editDirectoryPath.setText(contentsExternalDirectoryPath)
@@ -81,10 +82,10 @@ class YNetworkActivity : Activity(), View.OnClickListener {
             ) {
                 var value = spMode.getItemAtPosition(position)
 
-                if(value.equals(Config.MODE_ASSETS)){
+                if (value.equals(Config.MODE_ASSETS)) {
                     ll_url.visibility = View.GONE
                     ll_directory_path.visibility = View.GONE
-                } else if(value.equals(Config.MODE_ABSOLUTE)) {
+                } else if (value.equals(Config.MODE_ABSOLUTE)) {
                     ll_url.visibility = View.VISIBLE
                     ll_directory_path.visibility = View.GONE
                 } else {
@@ -105,25 +106,23 @@ class YNetworkActivity : Activity(), View.OnClickListener {
                 finish()
             }
             btnSave -> {
-                if(spMode.selectedItem.equals(Config.MODE_EXTERNAL)){
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                        if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED ||
-                            checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
-                            requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), permissionRequestCode)
+                if (spMode.selectedItem.equals(Config.MODE_EXTERNAL)) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED ||
+                            checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
+                        ) {
+                            requestPermissions(
+                                arrayOf(
+                                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                ), permissionRequestCode
+                            )
                             return
                         }
                     }
                 }
 
-                var editor = sharedPreferences.edit()
-
-                editor.putString("contents_mode", spMode.selectedItem.toString())
-                editor.putString("contents_url", editUrl.text.toString())
-                editor.putString("contents_external_directory_path", editDirectoryPath.text.toString())
-
-                editor.commit()
-
-                finish()
+                saveData()
             }
         }
     }
@@ -138,24 +137,40 @@ class YNetworkActivity : Activity(), View.OnClickListener {
 
         var result = true
 
-        for(grantResult in grantResults){
-            if(grantResult == PackageManager.PERMISSION_DENIED){
+        for (grantResult in grantResults) {
+            if (grantResult == PackageManager.PERMISSION_DENIED) {
                 result = false
             }
         }
 
-        if(result){
-            var editor = sharedPreferences.edit()
-
-            editor.putString("contents_mode", spMode.selectedItem.toString())
-            editor.putString("contents_url", editUrl.text.toString())
-            editor.putString("contents_external_directory_path", editDirectoryPath.text.toString())
-
-            editor.commit()
-
-            finish()
+        if (result) {
+            saveData()
         } else {
-            Toast.makeText(this, resources.getString(R.string.settings_save_fail), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                resources.getString(R.string.settings_save_fail),
+                Toast.LENGTH_SHORT
+            ).show()
         }
+    }
+
+    fun saveData(){
+        var editor = sharedPreferences.edit()
+
+        editor.putString("contents_mode", spMode.selectedItem.toString())
+        editor.putString("contents_url", editUrl.text.toString())
+        editor.putString("contents_external_directory_path", editDirectoryPath.text.toString())
+
+        editor.commit()
+
+        YApplication.contentsMode = spMode.selectedItem.toString()
+        YApplication.contentsUrl = editUrl.text.toString()
+        YApplication.contentsExternalDirectoryPath = editDirectoryPath.text.toString()
+
+        var data = Intent()
+        data.putExtra("refresh", true)
+
+        setResult(RESULT_OK, data)
+        finish()
     }
 }
