@@ -68,7 +68,7 @@ abstract class YFragment : Fragment() {
     open fun dispatchTouchEvent(cb: Window.Callback, event: MotionEvent) : Boolean {
         if(event.pointerCount == 3 && touched == false){
             touched = true
-            if(YApplication.isSettingMode){
+            if(YApplication.useSettingView){
                 var data = JSONObject()
                 data.put("id", "SHOW_SETTING_VIEW")
                 data.put("param", JSONObject())

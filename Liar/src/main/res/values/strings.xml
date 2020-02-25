@@ -5,5 +5,15 @@
     <string name="txt_save">저장</string>
 
     <string name="settings_mode">MODE : </string>
+    <string-array name="settings_modes">
+        <item>assets</item>
+        <item>absolute</item>
+        <item>external</item>
+    </string-array>
     <string name="settings_url">URL : </string>
+
+    <string name="settings_directory_path">Directory Path : </string>
+
+    <string name="settings_save_fail">external 모드를 사용하시려면, 외부 저장소 권한이 필요 합니다.</string>
+
 </resources>

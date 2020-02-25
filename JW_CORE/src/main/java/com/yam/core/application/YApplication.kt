@@ -1,7 +1,11 @@
 package com.yam.core.application
 
 import android.app.Application
+import android.content.Context
+import android.os.Environment
+import android.util.Log
 import androidx.fragment.app.Fragment
+import com.yam.core.util.Config
 
 open class YApplication : Application() {
 
@@ -19,7 +23,17 @@ open class YApplication : Application() {
         /**
          * 컨텐츠 모드
          */
-        var contentsMode = "assets"
+        var contentsMode = Config.MODE_ASSETS
+
+        /**
+         * absolute mode 에서 사용할 url
+         */
+        var contentsUrl = "192.168.30.81:8080"
+
+        /**
+         * external mode 일 때, external 경로를 제외한 컨텐츠가 실제로 있는 나머지 경로
+         */
+        var contentsExternalDirectoryPath = ""
 
         /**
          * 프레그먼트 리스트
@@ -36,6 +50,13 @@ open class YApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        var sharedPreferences = getSharedPreferences("config", Context.MODE_PRIVATE)
+        contentsMode = sharedPreferences.getString("contents_mode", Config.MODE_ASSETS)!!
+
+        contentsUrl = sharedPreferences.getString("contents_url", "")!!
+
+        contentsExternalDirectoryPath = sharedPreferences.getString("contents_external_directory_path", "")!!
     }
 
 }
