@@ -25,8 +25,6 @@ class AppUtils {
                 .beginTransaction()
                 .replace(RUtil.getIdR(activity.applicationContext, "contents"), fragment, "center")
                 .commitAllowingStateLoss()
-
-//            YApplication.addFragment(fragment)
         }
     }
 }

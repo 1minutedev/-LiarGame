@@ -128,4 +128,21 @@ open class YFragmentActivity : FragmentActivity() {
         var fragment = YApplication.fragmentList.get(YApplication.fragmentList.size - 1)
         return (fragment as YFragment).dispatchTouchEvent(cb, event)
     }
+
+    override fun onBackPressed() {
+        if(YApplication.fragmentList.size > 2) {
+            var removeFragment = YApplication.fragmentList.get(YApplication.fragmentList.size - 1)
+            var showFragment = YApplication.fragmentList.get(YApplication.fragmentList.size - 2)
+
+            var transaction = supportFragmentManager.beginTransaction()
+
+            transaction.remove(removeFragment)
+                .show(showFragment)
+                .commit()
+
+            YApplication.removeFragment(removeFragment)
+        } else {
+            super.onBackPressed()
+        }
+    }
 }

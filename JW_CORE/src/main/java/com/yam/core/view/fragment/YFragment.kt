@@ -64,8 +64,6 @@ abstract class YFragment : Fragment() {
             "center"
         )
         fragmentTransaction.commitAllowingStateLoss()
-
-//        YApplication.addFragment(fragment)
     }
 
     open fun dispatchTouchEvent(cb: Window.Callback, event: MotionEvent) : Boolean {

@@ -2,8 +2,6 @@ package com.yam.liar.view.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MotionEvent
-import com.yam.core.application.YApplication
 import com.yam.core.util.RUtil
 import com.yam.core.view.activity.YFragmentActivity
 import com.yam.liar.R
@@ -23,8 +21,6 @@ class MainFragmentActivity : YFragmentActivity() {
             .beginTransaction()
             .replace(RUtil.getIdR(applicationContext, "contents"), fragment, "center")
             .commitAllowingStateLoss()
-
-//        YApplication.addFragment(fragment)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
