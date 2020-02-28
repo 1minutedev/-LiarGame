@@ -4,4 +4,7 @@
     <plugin
         key="SHOW_SETTING_VIEW"
         value="com.yam.liar.plugin.ShowSettingPlugin" />
+    <plugin
+        key="SHOW_KEYWORD"
+        value="com.yam.liar.plugin.ShowKeywordPlugin" />
 </plugins>

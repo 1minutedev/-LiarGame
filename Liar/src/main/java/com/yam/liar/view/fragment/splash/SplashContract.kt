@@ -11,4 +11,5 @@ interface SplashContract {
         fun loadData()
         fun openWeb()
     }
+
 }

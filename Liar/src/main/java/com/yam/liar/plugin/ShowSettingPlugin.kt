@@ -7,8 +7,9 @@ import com.yam.liar.view.activity.YNetworkActivity
 import org.json.JSONObject
 
 class ShowSettingPlugin : YPlugin() {
-    var callback: String = ""
+    val TAG = ShowSettingPlugin::class.simpleName
 
+    var callback: String = ""
     lateinit var result: JSONObject
 
     override fun executePlugin() {

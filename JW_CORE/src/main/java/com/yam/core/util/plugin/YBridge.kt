@@ -16,10 +16,6 @@ import kotlin.collections.indices
 import kotlin.collections.set
 
 class YBridge {
-    private var activity: FragmentActivity? = null
-    private var fragment: Fragment? = null
-    private var webView: WebView? = null
-
     private var pluginList: JSONArray? = null
     private var interfaces: HashMap<String, String>? = null
 
@@ -28,6 +24,10 @@ class YBridge {
     internal val interfaceFileExt = "xml"
 
     companion object {
+        var activity: FragmentActivity? = null
+        var fragment: Fragment? = null
+        var webView: WebView? = null
+
         var yBridge : YBridge? = null
         var classes: HashMap<String, Class<*>>? = null
 
@@ -42,14 +42,14 @@ class YBridge {
     }
 
     open fun setFragment(fragment: Fragment){
-        this.fragment = fragment
+        YBridge.fragment = fragment
         setActivity(fragment.activity!!)
     }
     open fun setWebView(webView: WebView?){
-        this.webView = webView
+        YBridge.webView = webView
     }
     open fun setActivity(activity: FragmentActivity){
-        this.activity = activity
+        YBridge.activity = activity
     }
 
 
