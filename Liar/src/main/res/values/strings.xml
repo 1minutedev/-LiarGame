@@ -4,16 +4,25 @@
 
     <string name="txt_save">저장</string>
 
+
+    <!--  Setting 관련  -->
     <string name="settings_mode">MODE : </string>
     <string-array name="settings_modes">
         <item>assets</item>
         <item>absolute</item>
         <item>external</item>
     </string-array>
+
     <string name="settings_url">URL : </string>
-
     <string name="settings_directory_path">Directory Path : </string>
-
     <string name="settings_save_fail">external 모드를 사용하시려면, 외부 저장소 권한이 필요 합니다.</string>
 
+    <!--  제시어 확인 화면  -->
+    <string name="text_keyword_check">제시어를 확인해주세요.</string>
+    <string name="btn_text_keyword_check">제시어 확인하기</string>
+    <string name="text_category">주제 : </string>
+
+    <string name="text_liar1">당신은</string>
+    <string name="text_liar2">라이어</string>
+    <string name="text_liar3">입니다.</string>
 </resources>
