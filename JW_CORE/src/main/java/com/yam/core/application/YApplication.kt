@@ -28,7 +28,7 @@ open class YApplication : Application() {
         /**
          * absolute mode 에서 사용할 url
          */
-        var contentsUrl = "192.168.30.81:8080"
+        var contentsUrl = ""
 
         /**
          * external mode 일 때, external 경로를 제외한 컨텐츠가 실제로 있는 나머지 경로

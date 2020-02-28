@@ -77,12 +77,6 @@ abstract class YFragment : Fragment() {
                 YBridge.getInstance().callPluginFromApp("SHOW_SETTING_VIEW", data, object : CompleteListener {
                     override fun sendCallback(callback: String, resultData: JSONObject) {
                         touched = false
-
-                        if(resultData.has("refresh")){
-                            if(resultData.getBoolean("refresh")){
-                                AppUtils.restartApp(activity!!)
-                            }
-                        }
                     }
                 })
             }

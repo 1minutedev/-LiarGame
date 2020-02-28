@@ -2,6 +2,7 @@ package com.yam.liar.plugin
 
 import android.content.Intent
 import com.yam.core.util.ActivityRequestCode
+import com.yam.core.util.AppUtils
 import com.yam.core.util.plugin.YPlugin
 import com.yam.liar.view.activity.YNetworkActivity
 import org.json.JSONObject
@@ -33,9 +34,11 @@ class ShowSettingPlugin : YPlugin() {
                 isRefresh = data!!.getBooleanExtra("refresh", false)
             }
 
-            result.put("result", true)
-            result.put("refresh", isRefresh)
+            if(isRefresh){
+                AppUtils.restartApp(activity!!)
+            }
 
+            result.put("result", true)
             listener.sendCallback(callback, result)
         }
     }

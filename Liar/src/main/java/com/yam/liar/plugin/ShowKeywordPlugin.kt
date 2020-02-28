@@ -37,7 +37,7 @@ class ShowKeywordPlugin : YPlugin() {
 
         keywordFragment.arguments = arguments
 
-        (fragment as YFragment).moveToFragment(keywordFragment, "top")
+        (fragment as YFragment).moveToFragment(keywordFragment, "fade")
     }
 
 }
