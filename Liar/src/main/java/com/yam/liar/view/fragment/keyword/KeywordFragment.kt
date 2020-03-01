@@ -106,20 +106,6 @@ class KeywordFragment : YFragment(), KeywordContract.View, View.OnClickListener 
                     }
 
                     Handler().postDelayed(Runnable {
-                        if (llLiar.visibility == View.VISIBLE) {
-                            llLiar.visibility = View.GONE
-                        }
-                        if (tvKeyword.visibility == View.GONE) {
-                            tvKeyword.visibility = View.VISIBLE
-                        }
-
-                        if (llKeyword.visibility == View.VISIBLE) {
-                            llKeyword.visibility = View.GONE
-                        }
-                        if (llBlind.visibility == View.GONE) {
-                            llBlind.visibility = View.VISIBLE
-                        }
-
                         currentNumber++
 
                         if(currentNumber > total){
@@ -133,9 +119,21 @@ class KeywordFragment : YFragment(), KeywordContract.View, View.OnClickListener 
                             (activity as MainFragmentActivity).onBackPressed()
                             completeListener.sendCallback(callback, result)
                         } else {
-//                            activity!!.runOnUiThread(Runnable {
-                                tvSequence.setText(currentNumber.toString())
-//                            })
+                            if (llLiar.visibility == View.VISIBLE) {
+                                llLiar.visibility = View.GONE
+                            }
+                            if (tvKeyword.visibility == View.GONE) {
+                                tvKeyword.visibility = View.VISIBLE
+                            }
+
+                            if (llKeyword.visibility == View.VISIBLE) {
+                                llKeyword.visibility = View.GONE
+                            }
+                            if (llBlind.visibility == View.GONE) {
+                                llBlind.visibility = View.VISIBLE
+                            }
+
+                            tvSequence.setText(currentNumber.toString())
                         }
                     }, 2000)
                 }

@@ -15,7 +15,7 @@ class Config {
         fun getUrl() : String{
             when(YApplication.contentsMode){
                 MODE_ASSETS -> {
-                    return "file://android_asset/$contentsPath"
+                    return "file:///android_asset/$contentsPath"
                 }
                 MODE_ABSOLUTE -> {
                     return YApplication.contentsUrl
