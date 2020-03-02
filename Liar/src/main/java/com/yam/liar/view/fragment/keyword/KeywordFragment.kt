@@ -2,7 +2,6 @@ package com.yam.liar.view.fragment.keyword
 
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,62 +81,71 @@ class KeywordFragment : YFragment(), KeywordContract.View, View.OnClickListener 
         llLiar = ll_liar
 
         liarNumber = keywordPresenter.getLiar(total)
-        Log.e("wonmin", "liarNumber : $liarNumber")
     }
 
     override fun onClick(view: View?) {
         when (view!!) {
             btnCheckKeyword -> {
                 if (currentNumber <= total) {
-                    if (llBlind.visibility == View.VISIBLE) {
-                        llBlind.visibility = View.GONE
-                    }
-                    if (llKeyword.visibility == View.GONE) {
-                        llKeyword.visibility = View.VISIBLE
-                    }
-
-                    if (currentNumber == liarNumber) {
-                        if (tvKeyword.visibility == View.VISIBLE) {
-                            tvKeyword.visibility = View.GONE
-                        }
-                        if (llLiar.visibility == View.GONE) {
-                            llLiar.visibility = View.VISIBLE
-                        }
-                    }
+                    showKeyword()
 
                     Handler().postDelayed(Runnable {
                         currentNumber++
 
                         if(currentNumber > total){
-                            //종료 콜백
-                            var result = JSONObject()
-
-                            result.put("result", true)
-                            result.put("keyword", keyword)
-                            result.put("liar_num", liarNumber)
-
-                            (activity as MainFragmentActivity).onBackPressed()
-                            completeListener.sendCallback(callback, result)
+                            sendCallback()
                         } else {
-                            if (llLiar.visibility == View.VISIBLE) {
-                                llLiar.visibility = View.GONE
-                            }
-                            if (tvKeyword.visibility == View.GONE) {
-                                tvKeyword.visibility = View.VISIBLE
-                            }
-
-                            if (llKeyword.visibility == View.VISIBLE) {
-                                llKeyword.visibility = View.GONE
-                            }
-                            if (llBlind.visibility == View.GONE) {
-                                llBlind.visibility = View.VISIBLE
-                            }
-
+                            hideKeyword()
                             tvSequence.setText(currentNumber.toString())
                         }
                     }, 2000)
                 }
             }
         }
+    }
+
+    fun showKeyword(){
+        if (llBlind.visibility == View.VISIBLE) {
+            llBlind.visibility = View.GONE
+        }
+        if (llKeyword.visibility == View.GONE) {
+            llKeyword.visibility = View.VISIBLE
+        }
+
+        if (currentNumber == liarNumber) {
+            if (tvKeyword.visibility == View.VISIBLE) {
+                tvKeyword.visibility = View.GONE
+            }
+            if (llLiar.visibility == View.GONE) {
+                llLiar.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    fun hideKeyword(){
+        if (llLiar.visibility == View.VISIBLE) {
+            llLiar.visibility = View.GONE
+        }
+        if (tvKeyword.visibility == View.GONE) {
+            tvKeyword.visibility = View.VISIBLE
+        }
+
+        if (llKeyword.visibility == View.VISIBLE) {
+            llKeyword.visibility = View.GONE
+        }
+        if (llBlind.visibility == View.GONE) {
+            llBlind.visibility = View.VISIBLE
+        }
+    }
+
+    fun sendCallback(){
+        var result = JSONObject()
+
+        result.put("result", true)
+        result.put("keyword", keyword)
+        result.put("liar_num", liarNumber)
+
+        (activity as MainFragmentActivity).onBackPressed()
+        completeListener.sendCallback(callback, result)
     }
 }
