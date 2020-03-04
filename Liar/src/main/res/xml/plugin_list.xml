@@ -7,4 +7,7 @@
     <plugin
         key="SHOW_KEYWORD"
         value="com.yam.liar.plugin.ShowKeywordPlugin" />
+    <plugin
+        key="OPEN_PAINT"
+        value="com.yam.liar.plugin.OpenPaintPlugin" />
 </plugins>

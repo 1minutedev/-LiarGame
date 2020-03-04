@@ -3,4 +3,14 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="paint_palette_red">#FF5675</color>
+    <color name="paint_palette_orange">#FFC300</color>
+    <color name="paint_palette_yellow">#FFFA78</color>
+    <color name="paint_palette_green">#63CC63</color>
+    <color name="paint_palette_blue">#6180FA</color>
+    <color name="paint_palette_indigo">#3643B3</color>
+    <color name="paint_palette_purple">#9B6CC9</color>
+    <color name="paint_palette_black">#000000</color>
+    <color name="paint_palette_white">#FFFFFF</color>
 </resources>
