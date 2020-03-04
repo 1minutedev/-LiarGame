@@ -134,7 +134,7 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
 
         setPalette()
 
-        ivLine.setBackgroundColor(color)
+        ivLine.setBackgroundColor(Color.BLACK)
         setLineHeight(getDp(1))
 
         llPaint = itemView.ll_paint
@@ -318,6 +318,13 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
         }
 
         private fun touch_start(x: Float, y: Float) {
+            if(llLineSetting.visibility == View.VISIBLE){
+                llLineSetting.visibility = View.GONE
+            }
+            if(llPalette.visibility == View.VISIBLE){
+                llPalette.visibility = View.GONE
+            }
+
             mPath!!.reset()
             mPath!!.moveTo(x, y)
             mX = x
