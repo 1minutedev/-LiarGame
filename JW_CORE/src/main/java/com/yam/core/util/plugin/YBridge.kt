@@ -73,7 +73,9 @@ class YBridge {
 
             var completeListener = object : CompleteListener {
                 override fun sendCallback(callback: String, resultData: JSONObject) {
-                    activity!!.runOnUiThread { webView!!.loadUrl("javascript:$callback($resultData)") }
+                    activity!!.runOnUiThread {
+                        webView!!.loadUrl("javascript:$callback($resultData)")
+                    }
                 }
             }
 

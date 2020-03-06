@@ -3,6 +3,8 @@
     <string name="app_name">라이어게임</string>
 
     <string name="txt_save">저장</string>
+    <string name="txt_ok">확인</string>
+    <string name="txt_cancle">취소</string>
 
 
     <!--  Setting 관련  -->
@@ -30,4 +32,6 @@
     <string name="text_spy_description">라이어가 들키지 않도록 도와주어야 합니다.</string>
 
     <string name="btn_txt_next">N E X T</string>
+    <string name="txt_alert_message_next">더 이상 수정할 수 없습니다.\n그래도 이동하시겠습니까?</string>
+    <string name="txt_toast_readonly">보기 전용으로 전환 되었습니다.</string>
 </resources>

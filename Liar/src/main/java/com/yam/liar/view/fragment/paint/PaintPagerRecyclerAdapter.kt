@@ -15,13 +15,13 @@ import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.yam.core.util.RUtil
-import com.yam.core.view.fragment.YFragment
 import kotlinx.android.synthetic.main.item_pager.view.*
+import org.json.JSONObject
 
 class PaintPagerRecyclerAdapter : RecyclerView.Adapter<PagerViewHolder> {
     var context: Context
     var total: Int = 3
-    lateinit var fragment: YFragment
+    lateinit var fragment: PaintFragment
 
     constructor(context: Context, total: Int) {
         this.context = context
@@ -45,7 +45,7 @@ class PaintPagerRecyclerAdapter : RecyclerView.Adapter<PagerViewHolder> {
 
 class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener, SeekBar.OnSeekBarChangeListener {
     lateinit var context: Context
-    lateinit var fragment: YFragment
+    lateinit var fragment: PaintFragment
 
     var seq = 0
 
@@ -147,7 +147,6 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
         mPaint.strokeJoin = Paint.Join.ROUND
         mPaint.strokeCap = Paint.Cap.ROUND
         mPaint.strokeWidth = currentLineSize + 0.0f
-
         llPaint.addView(paintView)
 
         setEvent()
@@ -265,6 +264,10 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
             }
             btnClose -> {
                 fragment.activity!!.onBackPressed()
+
+                var resultData = JSONObject()
+                resultData.put("result", true)
+                fragment.sendCallback(resultData)
             }
         }
     }

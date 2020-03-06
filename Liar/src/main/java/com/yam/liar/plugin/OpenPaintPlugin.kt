@@ -31,6 +31,8 @@ class OpenPaintPlugin : YPlugin(){
         arguments.putInt("total", total)
 
         paintFragment.arguments = arguments
+        paintFragment.listener = listener
+
         (fragment as YFragment).moveToFragment(paintFragment, "fade")
     }
 
