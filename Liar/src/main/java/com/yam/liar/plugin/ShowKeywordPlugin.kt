@@ -19,6 +19,7 @@ class ShowKeywordPlugin : YPlugin() {
         var category = ""
         var keyword = ""
         var total = 3
+        var spy = false
 
         if(param.has("callback")){
             callback = param.getString("callback")
@@ -36,6 +37,10 @@ class ShowKeywordPlugin : YPlugin() {
             total = param.getInt("total")
         }
 
+        if(param.has("spy")){
+            spy = param.getBoolean("spy")
+        }
+
         if(TextUtils.isEmpty(category) || TextUtils.isEmpty(keyword)){
             result.put("result", false)
             result.put("err_msg", "Parameter does not have category or keyword")
@@ -50,6 +55,7 @@ class ShowKeywordPlugin : YPlugin() {
         arguments.putString("category", category)
         arguments.putString("keyword", keyword)
         arguments.putInt("total", total)
+        arguments.putBoolean("spy", spy)
 
         keywordFragment.arguments = arguments
 

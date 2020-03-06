@@ -14,31 +14,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1"
-            android:textSize="20sp"
             android:textColor="#000"
-            android:textStyle="bold"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="번째 순서"
             android:textColor="#000"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_above="@+id/ll_pop"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_category"
-            android:textSize="20sp"
             android:textColor="#000"
-            android:textStyle="bold"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/tv_category"
             android:layout_width="wrap_content"
@@ -46,7 +49,7 @@
             android:layout_marginLeft="5dp"
             android:textColor="#000"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -54,29 +57,31 @@
         android:layout_width="300dp"
         android:layout_height="200dp"
         android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:background="@drawable/rec_black_line">
+        android:background="@drawable/rec_black_line"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/ll_blind"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_keyword_check"
+                    android:textAlignment="center"
                     android:textColor="#000"
                     android:textSize="25dp"
-                    android:textAlignment="center"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -90,10 +95,10 @@
                     android:background="@drawable/rec_black_selector"
                     android:gravity="center"
                     android:text="@string/btn_text_keyword_check"
-                    android:textSize="20sp"
+                    android:textAlignment="center"
                     android:textColor="#fff"
-                    android:textStyle="bold"
-                    android:textAlignment="center"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
@@ -101,18 +106,19 @@
             android:id="@+id/ll_keyword"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:gravity="center"
-            android:visibility="gone" >
+            android:orientation="vertical"
+            android:visibility="visible">
+
             <!-- 제시어 -->
             <TextView
                 android:id="@+id/tv_keyword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"
                 android:textAlignment="center"
                 android:textColor="#FF5722"
-                android:textStyle="bold"/>
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <!-- 라이어 -->
             <LinearLayout
@@ -120,35 +126,104 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="25sp"
+                    android:text="@string/text_liar1"
                     android:textAlignment="center"
                     android:textColor="#000"
-                    android:textStyle="bold"
-                    android:text="@string/text_liar1"/>
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/text_liar2"
                     android:textAlignment="center"
                     android:textColor="#FF5722"
-                    android:textStyle="bold"
-                    android:text="@string/text_liar2"
-                    android:layout_marginLeft="5dp"/>
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="25sp"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/text_liar3"
                     android:textAlignment="center"
                     android:textColor="#000"
-                    android:textStyle="bold"
-                    android:text="@string/text_liar3"
-                    android:layout_marginLeft="5dp"/>
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
             </LinearLayout>
+
+            <!-- 스파이 -->
+            <LinearLayout
+                android:id="@+id/ll_spy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_spy_keyword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="베테랑"
+                    android:textAlignment="center"
+                    android:textColor="#FF5722"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_liar1"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="@string/text_spy"
+                        android:textAlignment="center"
+                        android:textColor="#FF5722"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="@string/text_liar3"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/text_spy_description"
+                    android:textAlignment="center"
+                    android:textColor="#acacac"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

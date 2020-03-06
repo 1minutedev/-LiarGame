@@ -23,9 +23,11 @@ class KeywordFragment : YFragment(), KeywordContract.View, View.OnClickListener 
     var category = ""
     var keyword = ""
     var total = 3
+    var spy = false
 
     var currentNumber = 1
     var liarNumber = 0
+    var spyNumber = 0
 
     lateinit var tvSequence: TextView
     lateinit var tvCategory: TextView
@@ -35,6 +37,7 @@ class KeywordFragment : YFragment(), KeywordContract.View, View.OnClickListener 
     lateinit var llBlind: LinearLayout
     lateinit var llKeyword: LinearLayout
     lateinit var llLiar: LinearLayout
+    lateinit var llSpy: LinearLayout
 
     lateinit var completeListener: CompleteListener
 
@@ -63,6 +66,7 @@ class KeywordFragment : YFragment(), KeywordContract.View, View.OnClickListener 
         category = arguments!!.getString("category", "")
         keyword = arguments!!.getString("keyword", "")
         total = arguments!!.getInt("total", 3)
+        spy = arguments!!.getBoolean("spy", false)
 
         tvSequence = tv_seq
         tvSequence.setText(currentNumber.toString())
@@ -79,8 +83,13 @@ class KeywordFragment : YFragment(), KeywordContract.View, View.OnClickListener 
         llBlind = ll_blind
         llKeyword = ll_keyword
         llLiar = ll_liar
+        llSpy = ll_spy
 
         liarNumber = keywordPresenter.getLiar(total)
+
+        if(spy){
+            spyNumber = keywordPresenter.getSpy(total, liarNumber)
+        }
     }
 
     override fun onClick(view: View?) {
@@ -98,7 +107,7 @@ class KeywordFragment : YFragment(), KeywordContract.View, View.OnClickListener 
                             hideKeyword()
                             tvSequence.setText(currentNumber.toString())
                         }
-                    }, 2000)
+                    }, 3000)
                 }
             }
         }
@@ -112,12 +121,36 @@ class KeywordFragment : YFragment(), KeywordContract.View, View.OnClickListener 
             llKeyword.visibility = View.VISIBLE
         }
 
-        if (currentNumber == liarNumber) {
-            if (tvKeyword.visibility == View.VISIBLE) {
-                tvKeyword.visibility = View.GONE
+        if (spy){
+            if (currentNumber == spyNumber){
+                if (tvKeyword.visibility == View.VISIBLE) {
+                    tvKeyword.visibility = View.GONE
+                }
+                if (llLiar.visibility == View.VISIBLE) {
+                    llLiar.visibility = View.GONE
+                }
+                if (llSpy.visibility == View.GONE){
+                    llSpy.visibility = View.VISIBLE
+                }
+            } else if (currentNumber == liarNumber) {
+                if (tvKeyword.visibility == View.VISIBLE) {
+                    tvKeyword.visibility = View.GONE
+                }
+                if (llSpy.visibility == View.VISIBLE){
+                    llSpy.visibility = View.GONE
+                }
+                if (llLiar.visibility == View.GONE) {
+                    llLiar.visibility = View.VISIBLE
+                }
             }
-            if (llLiar.visibility == View.GONE) {
-                llLiar.visibility = View.VISIBLE
+        } else {
+            if (currentNumber == liarNumber) {
+                if (tvKeyword.visibility == View.VISIBLE) {
+                    tvKeyword.visibility = View.GONE
+                }
+                if (llLiar.visibility == View.GONE) {
+                    llLiar.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -125,6 +158,9 @@ class KeywordFragment : YFragment(), KeywordContract.View, View.OnClickListener 
     fun hideKeyword(){
         if (llLiar.visibility == View.VISIBLE) {
             llLiar.visibility = View.GONE
+        }
+        if (llSpy.visibility == View.VISIBLE) {
+            llSpy.visibility = View.GONE
         }
         if (tvKeyword.visibility == View.GONE) {
             tvKeyword.visibility = View.VISIBLE
@@ -144,6 +180,10 @@ class KeywordFragment : YFragment(), KeywordContract.View, View.OnClickListener 
         result.put("result", true)
         result.put("keyword", keyword)
         result.put("liar_num", liarNumber)
+
+        if(spy) {
+            result.put("spy_num", spyNumber)
+        }
 
         (activity as MainFragmentActivity).onBackPressed()
         completeListener.sendCallback(callback, result)

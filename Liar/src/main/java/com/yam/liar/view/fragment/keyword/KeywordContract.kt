@@ -9,6 +9,7 @@ interface KeywordContract {
     interface Presenter {
         fun setView(view: KeywordContract.View)
         fun getLiar(total:Int) : Int
+        fun getSpy(total:Int, liar:Int) : Int
     }
 
 }

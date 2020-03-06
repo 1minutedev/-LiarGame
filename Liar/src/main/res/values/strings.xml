@@ -25,4 +25,9 @@
     <string name="text_liar1">당신은</string>
     <string name="text_liar2">라이어</string>
     <string name="text_liar3">입니다.</string>
+
+    <string name="text_spy">스파이</string>
+    <string name="text_spy_description">라이어가 들키지 않도록 도와주어야 합니다.</string>
+
+    <string name="btn_txt_next">N E X T</string>
 </resources>
