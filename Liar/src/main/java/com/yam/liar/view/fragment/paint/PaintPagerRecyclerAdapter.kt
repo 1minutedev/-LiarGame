@@ -11,18 +11,17 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.SeekBar
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.yam.core.util.RUtil
+import com.yam.core.view.fragment.YFragment
 import kotlinx.android.synthetic.main.item_pager.view.*
 
 class PaintPagerRecyclerAdapter : RecyclerView.Adapter<PagerViewHolder> {
-    lateinit var context: Context
+    var context: Context
     var total: Int = 3
+    lateinit var fragment: YFragment
 
     constructor(context: Context, total: Int) {
         this.context = context
@@ -30,18 +29,13 @@ class PaintPagerRecyclerAdapter : RecyclerView.Adapter<PagerViewHolder> {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerViewHolder {
-        return PagerViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                RUtil.getLayoutR(
-                    context,
-                    "item_pager"
-                ), parent, false
-            )
-        )
+        return PagerViewHolder(LayoutInflater.from(parent.context).inflate(RUtil.getLayoutR(context, "item_pager" ), parent, false))
     }
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
-        holder.bind(context, position)
+        holder.context = context
+        holder.fragment = fragment
+        holder.bind(position)
     }
 
     override fun getItemCount(): Int {
@@ -51,9 +45,13 @@ class PaintPagerRecyclerAdapter : RecyclerView.Adapter<PagerViewHolder> {
 
 class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener, SeekBar.OnSeekBarChangeListener {
     lateinit var context: Context
+    lateinit var fragment: YFragment
+
     var seq = 0
 
     lateinit var tvSeq: TextView
+
+    lateinit var btnClose: ImageButton
 
     /**
      * 색상 변경 버튼
@@ -99,15 +97,16 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
 
     lateinit var mPaint: Paint
 
-    fun bind(context: Context, position: Int) {
+    fun bind(position: Int) {
         this.seq = position + 1
-        this.context = context
 
         init()
     }
 
     fun init() {
         tvSeq = itemView.tv_seq
+
+        btnClose = itemView.btn_close
 
         llColor = itemView.ll_color_setting_click
         tvColor = itemView.tv_color_select
@@ -155,6 +154,8 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
     }
 
     fun setEvent() {
+        btnClose.setOnClickListener(this)
+
         llColor.setOnClickListener(this)
         ivColor.setOnClickListener(this)
         tvColor.setOnClickListener(this)
@@ -262,6 +263,9 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
                     }
                 }
             }
+            btnClose -> {
+                fragment.activity!!.onBackPressed()
+            }
         }
     }
 
@@ -286,8 +290,6 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
         private var mX: Float = 0.toFloat()
         private var mY: Float = 0.toFloat()
 
-        private val MINP = 0.25f
-        private val MAXP = 0.75f
         private val TOUCH_TOLERANCE = 4f
 
         constructor(c: Context) : super(c) {

@@ -32,10 +32,10 @@
 
             <ImageButton
                 android:id="@+id/btn_close"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:src="@drawable/btn_close"
-                android:background="@android:color/transparent"
+                android:background="@null"
                 android:layout_marginRight="10dp"/>
         </LinearLayout>
     </LinearLayout>
