@@ -34,4 +34,6 @@
     <string name="btn_txt_next">N E X T</string>
     <string name="txt_alert_message_next">더 이상 수정할 수 없습니다.\n그래도 이동하시겠습니까?</string>
     <string name="txt_toast_readonly">보기 전용으로 전환 되었습니다.</string>
+
+    <string name="txt_anim_swipe_message">좌우 스와이프로 그림 힌트를 확인하세요.\n과연 누가 거짓말을 하고 있을까요?</string>
 </resources>

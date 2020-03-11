@@ -22,14 +22,19 @@ class PaintPagerRecyclerAdapter : RecyclerView.Adapter<PagerViewHolder> {
     var context: Context
     var total: Int = 3
     lateinit var fragment: PaintFragment
+    open var holders: ArrayList<PagerViewHolder>
 
     constructor(context: Context, total: Int) {
         this.context = context
         this.total = total
+        holders = ArrayList()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerViewHolder {
-        return PagerViewHolder(LayoutInflater.from(parent.context).inflate(RUtil.getLayoutR(context, "item_pager" ), parent, false))
+        var view = LayoutInflater.from(parent.context).inflate(RUtil.getLayoutR(context, "item_pager" ), parent, false)
+        var holder = PagerViewHolder(view)
+        holders.add(holder)
+        return holder
     }
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
@@ -97,6 +102,8 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
 
     lateinit var mPaint: Paint
 
+    lateinit var mPaintView: PaintView
+
     fun bind(position: Int) {
         this.seq = position + 1
 
@@ -137,7 +144,7 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
         setLineHeight(getDp(1))
 
         llPaint = itemView.ll_paint
-        var paintView = PaintView(context)
+        mPaintView = PaintView(context)
 
         mPaint = Paint()
         mPaint.isAntiAlias = true
@@ -147,7 +154,7 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
         mPaint.strokeJoin = Paint.Join.ROUND
         mPaint.strokeCap = Paint.Cap.ROUND
         mPaint.strokeWidth = currentLineSize + 0.0f
-        llPaint.addView(paintView)
+        llPaint.addView(mPaintView)
 
         setEvent()
     }
@@ -231,6 +238,15 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
         params.height = currentLineSize
 
         ivLine.layoutParams = params
+    }
+
+    open fun hideButton(){
+        if(llLine.visibility == View.VISIBLE) {
+            llLine.visibility = View.GONE
+        }
+        if(llColor.visibility == View.VISIBLE) {
+            llColor.visibility = View.GONE
+        }
     }
 
     override fun onClick(view: View?) {
@@ -322,6 +338,11 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
             canvas.drawPath(mPath!!, mPaint)
         }
 
+        fun canvasClear(){
+            mCanvas!!.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+            invalidate()
+        }
+
         private fun touch_start(x: Float, y: Float) {
             if(llLineSetting.visibility == View.VISIBLE){
                 llLineSetting.visibility = View.GONE
@@ -353,20 +374,22 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
         }
 
         override fun onTouchEvent(event: MotionEvent): Boolean {
-            val x = event.x
-            val y = event.y
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    touch_start(x, y)
-                    invalidate()
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    touch_move(x, y)
-                    invalidate()
-                }
-                MotionEvent.ACTION_UP -> {
-                    touch_up()
-                    invalidate()
+            if(!PaintFragment.isReadOnly) {
+                val x = event.x
+                val y = event.y
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        touch_start(x, y)
+                        invalidate()
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+                        touch_move(x, y)
+                        invalidate()
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        touch_up()
+                        invalidate()
+                    }
                 }
             }
             return true

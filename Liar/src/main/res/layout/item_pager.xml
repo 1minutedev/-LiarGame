@@ -192,6 +192,5 @@
                     android:max="50"/>
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
 </RelativeLayout>
