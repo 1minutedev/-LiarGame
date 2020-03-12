@@ -1,6 +1,7 @@
 package com.yam.liar.view.fragment.paint
 
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.*
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.ShapeDrawable
@@ -13,8 +14,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.ColorInt
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.yam.core.util.RUtil
+import com.yam.liar.R
 import kotlinx.android.synthetic.main.item_pager.view.*
 import org.json.JSONObject
 
@@ -279,11 +282,35 @@ class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.
                 }
             }
             btnClose -> {
-                fragment.activity!!.onBackPressed()
+                var message = ""
+                if(PaintFragment.isReadOnly) {
+                    message = fragment.resources.getString(R.string.txt_alert_message_close)
+                } else {
+                    message = fragment.resources.getString(R.string.txt_alert_message_cancel)
+                }
 
-                var resultData = JSONObject()
-                resultData.put("result", true)
-                fragment.sendCallback(resultData)
+                AlertDialog.Builder(fragment.activity!!)
+                    .setMessage(message)
+                    .setCancelable(false)
+                    .setPositiveButton(fragment.resources.getString(R.string.txt_ok),
+                        DialogInterface.OnClickListener { dialogInterface, i ->
+                            var result = false
+
+                            if(PaintFragment.isReadOnly){
+                                result = true
+                            }
+
+                            fragment.activity!!.onBackPressed()
+
+                            var resultData = JSONObject()
+                            resultData.put("result", result)
+                            fragment.sendCallback(resultData)
+                        })
+                    .setNegativeButton(fragment.resources.getString(R.string.txt_cancle),
+                        DialogInterface.OnClickListener {
+                                dialogInterface, i -> {}
+                        })
+                    .create().show()
             }
         }
     }
