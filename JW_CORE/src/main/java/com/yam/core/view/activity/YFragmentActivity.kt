@@ -8,6 +8,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.FragmentActivity
 import com.yam.core.application.YApplication
 import com.yam.core.view.fragment.YFragment
+import com.yam.core.view.fragment.YWebFragment
 
 open class YFragmentActivity : FragmentActivity() {
 
@@ -130,17 +131,22 @@ open class YFragmentActivity : FragmentActivity() {
     }
 
     override fun onBackPressed() {
-        if(YApplication.fragmentList.size > 2) {
-            var removeFragment = YApplication.fragmentList.get(YApplication.fragmentList.size - 1)
-            var showFragment = YApplication.fragmentList.get(YApplication.fragmentList.size - 2)
+        if(YApplication.fragmentList.size > 1) {
+            var currentFragment = YApplication.fragmentList.get(YApplication.fragmentList.size - 1)
 
-            var transaction = supportFragmentManager.beginTransaction()
+            if(currentFragment is YWebFragment){
+                (currentFragment as YWebFragment).backButtonEvent()
+            }else {
+                var showFragment = YApplication.fragmentList.get(YApplication.fragmentList.size - 2)
 
-            transaction.remove(removeFragment)
-                .show(showFragment)
-                .commit()
+                var transaction = supportFragmentManager.beginTransaction()
 
-            YApplication.removeFragment(removeFragment)
+                transaction.remove(currentFragment)
+                    .show(showFragment)
+                    .commit()
+
+                YApplication.removeFragment(currentFragment)
+            }
         } else {
             super.onBackPressed()
         }
