@@ -38,7 +38,7 @@ class KeywordFragment : YFragment(), KeywordContract.View, View.OnClickListener 
     lateinit var llKeyword: LinearLayout
     lateinit var llLiar: LinearLayout
     lateinit var llSpy: LinearLayout
-
+    lateinit var tvSpyKeyword: TextView
     lateinit var completeListener: CompleteListener
 
     open fun setListener(completeListener: CompleteListener){
@@ -84,11 +84,13 @@ class KeywordFragment : YFragment(), KeywordContract.View, View.OnClickListener 
         llKeyword = ll_keyword
         llLiar = ll_liar
         llSpy = ll_spy
+        tvSpyKeyword = tv_spy_keyword
 
         liarNumber = keywordPresenter.getLiar(total)
 
         if(spy){
             spyNumber = keywordPresenter.getSpy(total, liarNumber)
+            tvSpyKeyword.setText(keyword)
         }
     }
 

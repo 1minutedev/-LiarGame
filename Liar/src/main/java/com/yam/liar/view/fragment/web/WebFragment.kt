@@ -50,6 +50,8 @@ open class WebFragment : YWebFragment() {
 
         mainView?.addView(yWebView!!, params)
 
-        yWebView!!.loadUrl(Config.getUrl())
+        var url = Config.getUrl()
+
+        yWebView!!.loadUrl(url)
     }
 }
