@@ -10,4 +10,10 @@
     <plugin
         key="OPEN_PAINT"
         value="com.yam.liar.plugin.OpenPaintPlugin" />
+    <plugin
+        key="SHOW_DIALOG"
+        value="com.yam.liar.plugin.ShowDialogPlugin" />
+    <plugin
+        key="APP_EXIT"
+        value="com.yam.liar.plugin.AppExitPlugin" />
 </plugins>

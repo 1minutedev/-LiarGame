@@ -134,9 +134,9 @@ open class YFragmentActivity : FragmentActivity() {
         if(YApplication.fragmentList.size > 1) {
             var currentFragment = YApplication.fragmentList.get(YApplication.fragmentList.size - 1)
 
-            if(currentFragment is YWebFragment){
+            if(currentFragment is YWebFragment) {
                 (currentFragment as YWebFragment).backButtonEvent()
-            }else {
+            } else {
                 var showFragment = YApplication.fragmentList.get(YApplication.fragmentList.size - 2)
 
                 var transaction = supportFragmentManager.beginTransaction()

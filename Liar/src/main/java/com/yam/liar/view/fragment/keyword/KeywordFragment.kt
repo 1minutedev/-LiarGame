@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.yam.core.util.RUtil
 import com.yam.core.util.plugin.CompleteListener
+import com.yam.core.util.plugin.YBridge
 import com.yam.core.view.fragment.YFragment
 import com.yam.liar.view.activity.MainFragmentActivity
 import kotlinx.android.synthetic.main.fragment_keyword.*
